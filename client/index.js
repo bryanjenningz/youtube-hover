@@ -8,7 +8,7 @@ console.assert(english.length > 0 && japanese.length > 0)
 const latestBlock = (time, timeBlocks, defaultValue) =>
   timeBlocks.filter(block => block.time <= time).reverse()[0] || defaultValue
 
-const Cards = ({cards, english, japanese}) =>
+const Cards = ({cards, english, japanese, removeCard}) =>
   <div>
     {cards.length > 0 ?
       <table className="table table-striped">
@@ -19,13 +19,13 @@ const Cards = ({cards, english, japanese}) =>
           </tr>
         </thead>
         <tbody>
-          {cards.map((card, i) => <Card key={i} card={card} english={english} japanese={japanese} />)}
+          {cards.map((card, i) => <Card key={i} card={card} english={english} japanese={japanese} removeCard={() => removeCard(i)} />)}
         </tbody>
       </table> :
       <h1 className="jumbotron">No cards added yet!</h1>}
   </div>
 
-const Card = ({card, english, japanese}) => {
+const Card = ({card, english, japanese, removeCard}) => {
   const {time, wordIndex, translationIndex} = card
   const japaneseBlock = latestBlock(time, japanese, japanese[0])
   const japaneseText = japaneseBlock.translations.map(entry => entry.word).join('')
@@ -36,6 +36,12 @@ const Card = ({card, english, japanese}) => {
     <tr>
       <td>{japaneseWord}</td>
       <td>{japaneseTranslation}</td>
+      <button
+        className="btn btn-default btn-xs"
+        style={{marginTop: 7}}
+        onClick={removeCard}>
+        <i className="glyphicon glyphicon-remove" />
+      </button>
     </tr>
   )
 }
@@ -50,6 +56,10 @@ class App extends Component {
         this.setState({time: currentTime})
       }
     }, 100)
+  }
+
+  removeCard(i) {
+    this.setState({cards: [...this.state.cards.slice(0, i), ...this.state.cards.slice(i + 1)]})
   }
 
   render() {
@@ -95,7 +105,7 @@ class App extends Component {
             )
           })}
         </h4>
-        <Cards cards={cards} english={english} japanese={japanese} />
+        <Cards cards={cards} english={english} japanese={japanese} removeCard={this.removeCard.bind(this)} />
       </div>
     )
   }
