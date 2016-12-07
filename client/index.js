@@ -8,6 +8,23 @@ console.assert(english.length > 0 && japanese.length > 0)
 const latestBlock = (time, timeBlocks, defaultValue) =>
   timeBlocks.filter(block => block.time <= time).reverse()[0] || defaultValue
 
+const Cards = ({cards, english, japanese}) =>
+  <div>
+    {cards.length > 0 ?
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th className="text-center">Word</th>
+            <th className="text-center">Definition</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cards.map((card, i) => <Card key={i} card={card} english={english} japanese={japanese} />)}
+        </tbody>
+      </table> :
+      <h1 className="jumbotron">No cards added yet!</h1>}
+  </div>
+
 const Card = ({card, english, japanese}) => {
   const {time, wordIndex, translationIndex} = card
   const japaneseBlock = latestBlock(time, japanese, japanese[0])
@@ -16,13 +33,10 @@ const Card = ({card, english, japanese}) => {
   const japaneseTranslation = japaneseBlock.translations[wordIndex].translation[translationIndex]
   const englishText = latestBlock(time, english, english[0]).text
   return (
-    <div>
-      <div>{time}, {wordIndex}, {translationIndex}</div>
-      <div>{englishText}</div>
-      <div>{japaneseText}</div>
-      <div>{japaneseWord}</div>
-      <div>{japaneseTranslation}</div>
-    </div>
+    <tr>
+      <td>{japaneseWord}</td>
+      <td>{japaneseTranslation}</td>
+    </tr>
   )
 }
 
@@ -47,9 +61,6 @@ class App extends Component {
     const japaneseTranslations = japaneseBlock.translations
     return (
       <div className="text-center">
-        <h4>
-          {cards.map((card, i) => <Card key={i} card={card} english={english} japanese={japanese} />)}
-        </h4>
         <h4>{englishText}</h4>
         <h4>
           {japaneseTranslations.map(({word, translation}, wordIndex) => {
@@ -77,6 +88,7 @@ class App extends Component {
             )
           })}
         </h4>
+        <Cards cards={cards} english={english} japanese={japanese} />
       </div>
     )
   }
