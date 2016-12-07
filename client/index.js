@@ -72,13 +72,20 @@ class App extends Component {
                 {word}
                 {hovering && translation ?
                   <span style={{position: 'absolute', top: 20, left: -180, background: 'cyan', width: 400, padding: 10}}>
+                    <div className="pull-right">
+                      <button
+                        className="btn btn-default btn-xs"
+                        onClick={() => this.setState({hoverIndex: -1})}>
+                        <i className="glyphicon glyphicon-remove" />
+                      </button>
+                    </div>
                     {translation.slice(0, 5).map((translationEntry, translationIndex) =>
                       <div key={translationIndex}>
                         <button
                           className="btn btn-default btn-xs"
                           onClick={() => this.setState({cards: [...cards, {time, wordIndex, translationIndex}]})}>
-                          +
-                          </button>
+                          <i className="glyphicon glyphicon-plus" />
+                        </button>
                         {translationEntry}
                       </div>
                     )}
