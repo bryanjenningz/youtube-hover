@@ -98,9 +98,9 @@ class App extends Component {
             const hovering = hoverIndex === wordIndex
             return (
               <span key={wordIndex}
-                style={{background: hovering ? 'cyan' : 'none', position: 'relative'}}
+                style={{position: 'relative'}}
                 onMouseMove={() => this.setState({hoverIndex: wordIndex})}>
-                {word}
+                <h2 style={{display: 'inline', background: hovering ? 'cyan' : 'none'}}>{word}</h2>
                 {hovering && translation ?
                   <span style={{position: 'absolute', top: 20, left: -180, background: 'cyan', width: 400, padding: 10}}>
                     <div className="pull-right">
