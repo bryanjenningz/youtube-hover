@@ -5,13 +5,23 @@
     <title>YouTube Hover</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
-      .black-bg {
-        background: black;
+      body {
+        color: #fff;
+        background: #657377;
+      }
+      .table-striped > tbody > tr:nth-of-type(odd) {
+        background: #9997a9;
+      }
+      h2 {
+        font-size: 24px;
+      }
+      .hovering {
+        background: #2b3a3a;
       }
     </style>
   </head>
   <body>
-    <div class="text-center black-bg"><div id="player"></div></div>
+    <div class="text-center"><div id="player"></div></div>
     <div id="root"></div>
 
     <script>

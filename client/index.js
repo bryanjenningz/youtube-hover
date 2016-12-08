@@ -38,7 +38,7 @@ const Cards = ({cards, english, japanese, removeCard}) =>
           {cards.map((card, i) => <Card key={i} card={card} english={english} japanese={japanese} removeCard={() => removeCard(i)} />)}
         </tbody>
       </table> :
-      <h1 className="jumbotron">No cards added yet!</h1>}
+      <h1 className="jumbotron" style={{background: '#5f9ea0'}}>No cards added yet!</h1>}
   </div>
 
 const Card = ({card, english, japanese, removeCard}) => {
@@ -100,9 +100,9 @@ class App extends Component {
               <span key={wordIndex}
                 style={{position: 'relative'}}
                 onMouseMove={() => this.setState({hoverIndex: wordIndex})}>
-                <h2 style={{display: 'inline', background: hovering ? 'cyan' : 'none'}}>{word}</h2>
+                <h2 style={{display: 'inline'}} className={hovering ? 'hovering' : ''}>{word}</h2>
                 {hovering && translation ?
-                  <span style={{position: 'absolute', top: 20, left: -180, background: 'cyan', width: 400, padding: 10}}>
+                  <span style={{position: 'absolute', top: 20, left: -180, width: 400, padding: 10}} className="hovering">
                     <div className="pull-right">
                       <button
                         className="btn btn-default btn-xs"
