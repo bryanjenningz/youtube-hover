@@ -5,6 +5,22 @@ import japanese from './japanese'
 
 console.assert(english.length > 0 && japanese.length > 0)
 
+const load = (name) => {
+  try {
+    return JSON.parse(localStorage.getItem(name))
+  } catch (err) {
+    console.error('Failed to load from localStorage')
+  }
+}
+
+const save = (name, value) => {
+  try {
+    localStorage.setItem(name, JSON.stringify(value))
+  } catch (err) {
+    // Ignore write errors
+  }
+}
+
 const latestBlock = (time, timeBlocks, defaultValue) =>
   timeBlocks.filter(block => block.time <= time).reverse()[0] || defaultValue
 
@@ -36,12 +52,11 @@ const Card = ({card, english, japanese, removeCard}) => {
     <tr>
       <td>{japaneseWord}</td>
       <td>{japaneseTranslation}</td>
-      <button
+      <td><button
         className="btn btn-default btn-xs"
-        style={{marginTop: 7}}
         onClick={removeCard}>
         <i className="glyphicon glyphicon-remove" />
-      </button>
+      </button></td>
     </tr>
   )
 }
@@ -49,13 +64,19 @@ const Card = ({card, english, japanese, removeCard}) => {
 class App extends Component {
   constructor() {
     super()
-    this.state = {time: 0, english, japanese, hoverIndex: -1, cards: []}
+    this.state = {time: 0, english, japanese, hoverIndex: -1, cards: load('cards') || []}
     setInterval(() => {
       if (typeof player.getCurrentTime === 'function') {
         const currentTime = Number(player.getCurrentTime().toFixed(1))
         this.setState({time: currentTime})
       }
     }, 100)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.cards.length !== this.state.cards.length) {
+      save('cards', this.state.cards)
+    }
   }
 
   removeCard(i) {
