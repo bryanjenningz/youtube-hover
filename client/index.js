@@ -18,14 +18,23 @@ class App extends Component {
       }
     }, 100)
 
-    this.removeCard = this.removeCard.bind(this)
     this.setHoverIndex = this.setHoverIndex.bind(this)
+    this.addCard = this.addCard.bind(this)
+    this.removeCard = this.removeCard.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.cards.length !== this.state.cards.length) {
       save('cards', this.state.cards)
     }
+  }
+
+  setHoverIndex(hoverIndex) {
+    this.setState({hoverIndex})
+  }
+
+  addCard({time, wordIndex, translationIndex}) {
+    this.setState({cards: [...this.state.cards, {time, wordIndex, translationIndex}]})
   }
 
   removeCard(index) {
@@ -35,10 +44,6 @@ class App extends Component {
         ...this.state.cards.slice(index + 1)
       ]
     })
-  }
-
-  setHoverIndex(hoverIndex) {
-    this.setState({hoverIndex})
   }
 
   render() {
@@ -72,7 +77,7 @@ class App extends Component {
                       <div key={translationIndex}>
                         <button
                           className="btn btn-default btn-xs"
-                          onClick={() => this.setState({cards: [...cards, {time, wordIndex, translationIndex}]})}>
+                          onClick={() => this.addCard({time, wordIndex, translationIndex})}>
                           <i className="glyphicon glyphicon-plus" />
                         </button>
                         {translationEntry}
