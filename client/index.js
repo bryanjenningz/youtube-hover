@@ -64,7 +64,7 @@ class App extends Component {
                     <div className="pull-right">
                       <button
                         className="btn btn-default btn-xs"
-                        onClick={() => this.setState({hoverIndex: -1})}>
+                        onClick={() => this.setHoverIndex(-1)}>
                         <i className="glyphicon glyphicon-remove" />
                       </button>
                     </div>
