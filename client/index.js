@@ -17,6 +17,9 @@ class App extends Component {
         this.setState({time: currentTime})
       }
     }, 100)
+
+    this.removeCard = this.removeCard.bind(this)
+    this.setHoverIndex = this.setHoverIndex.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -25,8 +28,17 @@ class App extends Component {
     }
   }
 
-  removeCard(i) {
-    this.setState({cards: [...this.state.cards.slice(0, i), ...this.state.cards.slice(i + 1)]})
+  removeCard(index) {
+    this.setState({
+      cards: [
+        ...this.state.cards.slice(0, index),
+        ...this.state.cards.slice(index + 1)
+      ]
+    })
+  }
+
+  setHoverIndex(hoverIndex) {
+    this.setState({hoverIndex})
   }
 
   render() {
@@ -45,7 +57,7 @@ class App extends Component {
             return (
               <span key={wordIndex}
                 style={{position: 'relative'}}
-                onMouseMove={() => this.setState({hoverIndex: wordIndex})}>
+                onMouseMove={() => this.setHoverIndex(wordIndex)}>
                 <h2 style={{display: 'inline'}} className={hovering ? 'hovering' : ''}>{word}</h2>
                 {hovering && translation ?
                   <span style={{position: 'absolute', top: 20, left: -180, width: 400, padding: 10}} className="hovering">
