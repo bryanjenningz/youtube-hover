@@ -3,25 +3,9 @@ import {render} from 'react-dom'
 import english from './english'
 import japanese from './japanese'
 import Cards from './components/Cards'
-import {latestBlock} from './utils'
+import {latestBlock, load, save} from './utils'
 
 console.assert(english.length > 0 && japanese.length > 0)
-
-const load = (name) => {
-  try {
-    return JSON.parse(localStorage.getItem(name))
-  } catch (err) {
-    console.error('Failed to load from localStorage')
-  }
-}
-
-const save = (name, value) => {
-  try {
-    localStorage.setItem(name, JSON.stringify(value))
-  } catch (err) {
-    // Ignore write errors
-  }
-}
 
 class App extends Component {
   constructor() {
