@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import {latestBlock} from '../utils'
 
 const Card = ({card, english, japanese, removeCard}) => {
@@ -37,5 +37,20 @@ const Cards = ({cards, english, japanese, removeCard}) =>
       </table> :
       <h1 className="jumbotron" style={{background: '#5f9ea0'}}>No cards added yet!</h1>}
   </div>
+
+Cards.propTypes = {
+  cards: PropTypes.arrayOf(PropTypes.shape({
+    time: PropTypes.number.isRequired,
+    wordIndex: PropTypes.number.isRequired,
+    translationIndex: PropTypes.number.isRequired,
+  })).isRequired,
+  japanese: PropTypes.arrayOf(PropTypes.shape({
+    time: PropTypes.number.isRequired,
+    translations: PropTypes.arrayOf(PropTypes.shape({
+      word: PropTypes.string.isRequired,
+      translation: PropTypes.arrayOf(PropTypes.string),
+    })).isRequired,
+  })).isRequired,
+}
 
 export default Cards

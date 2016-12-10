@@ -13,7 +13,7 @@ class App extends Component {
     super()
     this.state = {time: 0, english, japanese, hoverIndex: -1, cards: load('cards') || []}
     setInterval(() => {
-      if (typeof player.getCurrentTime === 'function') {
+      if (player && player.getCurrentTime) {
         const currentTime = Number(player.getCurrentTime().toFixed(1))
         this.setState({time: currentTime})
       }
