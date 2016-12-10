@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {render} from 'react-dom'
 import english from './english'
 import japanese from './japanese'
+import PopupTranslation from './components/PopupTranslation'
 import Cards from './components/Cards'
 import {latestBlock, load, save} from './utils'
 
@@ -64,32 +65,22 @@ class App extends Component {
                 style={{position: 'relative'}}
                 onMouseMove={() => this.setHoverIndex(wordIndex)}>
                 <h2 style={{display: 'inline'}} className={hovering ? 'hovering' : ''}>{word}</h2>
-                {hovering && translation ?
-                  <span style={{position: 'absolute', top: 20, left: -180, width: 400, padding: 10}} className="hovering">
-                    <div className="pull-right">
-                      <button
-                        className="btn btn-default btn-xs"
-                        onClick={() => this.setHoverIndex(-1)}>
-                        <i className="glyphicon glyphicon-remove" />
-                      </button>
-                    </div>
-                    {translation.slice(0, 5).map((translationEntry, translationIndex) =>
-                      <div key={translationIndex}>
-                        <button
-                          className="btn btn-default btn-xs"
-                          onClick={() => this.addCard({time, wordIndex, translationIndex})}>
-                          <i className="glyphicon glyphicon-plus" />
-                        </button>
-                        {translationEntry}
-                      </div>
-                    )}
-                  </span> :
-                  null}
+                <PopupTranslation
+                  showTranslation={hovering && translation}
+                  translation={translation}
+                  setHoverIndex={this.setHoverIndex}
+                  addCard={(translationIndex) => this.addCard({
+                    time, wordIndex, translationIndex
+                  })} />
               </span>
             )
           })}
         </h4>
-        <Cards cards={cards} english={english} japanese={japanese} removeCard={this.removeCard.bind(this)} />
+        <Cards
+          cards={cards}
+          english={english}
+          japanese={japanese}
+          removeCard={this.removeCard.bind(this)} />
       </div>
     )
   }
