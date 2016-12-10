@@ -14,6 +14,12 @@ const Card = ({word, translation, removeCard}) =>
     </td>
   </tr>
 
+Card.propTypes = {
+  word: PropTypes.string.isRequired,
+  translation: PropTypes.string.isRequired,
+  removeCard: PropTypes.func.isRequired,
+}
+
 const Cards = ({cards, japanese, removeCard}) =>
   <div>
     {cards.length > 0 ?
