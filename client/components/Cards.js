@@ -1,25 +1,20 @@
 import React, {PropTypes} from 'react'
 import {latestBlock} from '../utils'
 
-const Card = ({card, japanese, removeCard}) => {
-  const {time, wordIndex, translationIndex} = card
-  const japaneseBlock = latestBlock(time, japanese, japanese[0])
-  const japaneseWord = japaneseBlock.translations[wordIndex].word
-  const japaneseTranslation = japaneseBlock.translations[wordIndex].translation[translationIndex]
-  return (
-    <tr>
-      <td>{japaneseWord}</td>
-      <td>{japaneseTranslation}</td>
-      <td><button
+const Card = ({word, translation, removeCard}) =>
+  <tr>
+    <td>{word}</td>
+    <td>{translation}</td>
+    <td>
+      <button
         className="btn btn-default btn-xs"
         onClick={removeCard}>
         <i className="glyphicon glyphicon-remove" />
-      </button></td>
-    </tr>
-  )
-}
+      </button>
+    </td>
+  </tr>
 
-const Cards = ({cards, english, japanese, removeCard}) =>
+const Cards = ({cards, japanese, removeCard}) =>
   <div>
     {cards.length > 0 ?
       <table className="table table-striped">
@@ -30,14 +25,19 @@ const Cards = ({cards, english, japanese, removeCard}) =>
           </tr>
         </thead>
         <tbody>
-          {cards.map((card, i) =>
-            <Card
-              key={i}
-              card={card}
-              english={english}
-              japanese={japanese}
-              removeCard={() => removeCard(i)} />
-          )}
+          {cards.map((card, i) => {
+            const {time, wordIndex, translationIndex} = card
+            const japaneseBlock = latestBlock(time, japanese, japanese[0])
+            const japaneseWord = japaneseBlock.translations[wordIndex].word
+            const japaneseTranslation = japaneseBlock.translations[wordIndex].translation[translationIndex]
+            return (
+              <Card
+                key={i}
+                word={japaneseWord}
+                translation={japaneseTranslation}
+                removeCard={() => removeCard(i)} />
+            )
+          })}
         </tbody>
       </table> :
       <h1
