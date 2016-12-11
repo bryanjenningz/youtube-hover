@@ -21,6 +21,15 @@ export default class App extends Component {
       cards: load('cards') || [],
     }
 
+    // Set up YouTube player
+    document.querySelector('#player').style.display = 'inline'
+    const intervalId = setInterval(() => {
+      if (playerReady) {
+        player.playVideo()
+        clearInterval(intervalId)
+      }
+    }, 100)
+
     setInterval(() => {
       if (player && player.getCurrentTime) {
         const currentTime = Number(player.getCurrentTime().toFixed(1))

@@ -21,9 +21,10 @@
     </style>
   </head>
   <body>
-    <div class="text-center"><div id="player"></div></div>
+    <div class="text-center">
+      <div id="player" style="display: none"></div>
+    </div>
     <div id="root"></div>
-
     <script>
       // This code loads the IFrame Player API code asynchronously.
       var tag = document.createElement('script')
@@ -43,8 +44,9 @@
         })
       }
 
+      var playerReady = false
       function onPlayerReady(event) {
-        event.target.playVideo()
+        playerReady = true
       }
     </script>
   </body>
