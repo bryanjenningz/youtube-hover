@@ -2,7 +2,15 @@ import React from 'react'
 
 const PopupTranslation = ({showTranslation, translation, setHoverIndex, addCard}) =>
   showTranslation ?
-    <span style={{position: 'absolute', top: 20, left: -180, width: 400, padding: 10}} className="hovering">
+    <span
+      style={{
+        position: 'absolute',
+        top: 20,
+        left: -180,
+        width: 400,
+        padding: 10
+      }}
+      className="hovering">
       <div className="pull-right">
         <button
           className="btn btn-default btn-xs"

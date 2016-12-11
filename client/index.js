@@ -6,12 +6,22 @@ import PopupTranslation from './components/PopupTranslation'
 import Cards from './components/Cards'
 import {latestBlock, load, save} from './utils'
 
-console.assert(english.length > 0 && japanese.length > 0)
+console.assert(
+  english.length > 0 && japanese.length > 0,
+  'english and japanese must be non-empty arrays'
+)
 
 class App extends Component {
   constructor() {
     super()
-    this.state = {time: 0, english, japanese, hoverIndex: -1, cards: load('cards') || []}
+    this.state = {
+      time: 0,
+      english,
+      japanese,
+      hoverIndex: -1,
+      cards: load('cards') || [],
+    }
+
     setInterval(() => {
       if (player && player.getCurrentTime) {
         const currentTime = Number(player.getCurrentTime().toFixed(1))
@@ -35,7 +45,17 @@ class App extends Component {
   }
 
   addCard({time, wordIndex, translationIndex}) {
-    this.setState({cards: [...this.state.cards, {time, wordIndex, translationIndex}]})
+    console.assert(
+      time !== undefined && wordIndex !== undefined && translationIndex !== undefined,
+      'time, wordIndex, and translationIndex must be defined'
+    )
+
+    this.setState({
+      cards: [
+        ...this.state.cards,
+        {time, wordIndex, translationIndex}
+      ]
+    })
   }
 
   removeCard(index) {
@@ -61,17 +81,22 @@ class App extends Component {
           {japaneseTranslations.map(({word, translation}, wordIndex) => {
             const hovering = hoverIndex === wordIndex
             return (
-              <span key={wordIndex}
+              <span
+                key={wordIndex}
                 style={{position: 'relative'}}
                 onMouseMove={() => this.setHoverIndex(wordIndex)}>
-                <h2 style={{display: 'inline'}} className={hovering ? 'hovering' : ''}>{word}</h2>
+                <h2
+                  style={{display: 'inline'}}
+                  className={hovering ? 'hovering' : ''}>
+                  {word}
+                </h2>
                 <PopupTranslation
                   showTranslation={hovering && translation}
                   translation={translation}
                   setHoverIndex={this.setHoverIndex}
-                  addCard={(translationIndex) => this.addCard({
-                    time, wordIndex, translationIndex
-                  })} />
+                  addCard={(translationIndex) => {
+                    this.addCard({time, wordIndex, translationIndex})
+                  }} />
               </span>
             )
           })}
